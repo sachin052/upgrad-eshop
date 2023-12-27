@@ -1,8 +1,8 @@
 import { Box, Stack, Tab, Typography } from "@mui/material";
 import { useState } from "react";
-import AppTabBar from "../comonents/AppTabBar";
-import SortByComponent from "../comonents/SortByComponent";
-import ShoppingCardComponent from "../comonents/ShooppingCardComponent";
+import AppTabBar from "../Components/AppTabBar";
+import SortByComponent from "../Components/SortByComponent";
+import ShoppingCardComponent from "../Components/ShooppingCardComponent";
 
 const HomePage = () => {
   return (
