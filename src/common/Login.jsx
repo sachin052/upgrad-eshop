@@ -10,6 +10,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
 
 function Copyright(props) {
   return (
@@ -29,13 +31,33 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignIn() {
-  const handleSubmit = (event) => {
+  const navigate=useNavigate();
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
+    const loginRequest={
+      username: data.get('email'),
       password: data.get('password'),
-    });
+    };
+    try {
+      
+      const response = await fetch("http://localhost:8080/api/auth/signin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(loginRequest),
+      });
+      if(response.ok){
+        const authToken=response.json().token;
+        Cookies.set("authToken",authToken);
+        navigate("/products")
+      }
+
+    } catch (error) {
+      
+    }
+
   };
 
   return (
