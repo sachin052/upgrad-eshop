@@ -7,6 +7,7 @@ import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import SortByComponent from "./SortByComponent";
 import MediaCard from "./ShoppingCardItem";
+import { Box } from "@mui/material";
 
 export default function ProductPage() {
   const [alignment, setAlignment] = React.useState("web");
@@ -15,6 +16,8 @@ export default function ProductPage() {
     setAlignment(newAlignment);
   };
   const dummyData = Array.from({ length: 10 }, (_, index) => ({
+    id: index,
+    price:index*100,
     image: `https://source.unsplash.com/random/200x200?sig=${index + 1}`,
     title: `Card ${index + 1}`,
     heading: `This is the heading for Card ${index + 1}.`,
@@ -46,15 +49,19 @@ export default function ProductPage() {
       </center>
       <p>Sort by:</p>
       <SortByComponent onChange={(e) => {}} />
-      <Grid container spacing={2}>
+      <Box display="flex" justifyContent="center"> 
+      <Grid
+        container
+        direction="row"
+        justifyContent="space-around"
+        alignItems="center" spacing={12}  maxWidth='80%'      >
         {dummyData.map((e, index) => (
-          <Grid item xs={4} key={index}>
-            <Item>
-              <MediaCard image={e.image} heading={e.heading} title={e.title} />
-            </Item>
+          <Grid item  xs={4}key={index} >
+            <MediaCard image={e.image} heading={e.heading} title={e.title} price={e.price} />
           </Grid>
         ))}
       </Grid>
+      </Box>
     </div>
   );
 }
