@@ -3,7 +3,9 @@ import Login from "./common/Login";
 import SignUp from "./common/SignUp";
 import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import AppTabBar from "./components/AppTabBar";
-import ProductPage from "./components/ProductPage";
+import ProductPage from "./Components/ProductPage";
+import ProductDetailPage from "./Components/ProductDetailPage";
+import OrderPage from "./Components/OrderPage";
 import Cookies from "js-cookie";
 
 const App = () => {
@@ -32,8 +34,9 @@ const AppContent = () => {
       <Routes>
         <Route exact path="/" key="home" element={<Login />} />
         <Route exact path="/signup" key="signup" element={<SignUp />} />
-        <Route exact path="/login" key="login" element={<Login />} />
-        <Route exact path="/products" key="products" element={<ProductPage />} />
+        <Route exact path="/productPage" key='productPage' element={<ProductPage/>}/>
+        <Route exact path="/buy" key='buy' element={<ProductDetailPage/>}/>
+        <Route exact path="/orderPage" key='orderPage' element={<OrderPage/>}/>
       </Routes>
     </div>
   );
