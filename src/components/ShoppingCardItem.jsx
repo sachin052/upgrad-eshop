@@ -29,7 +29,7 @@ export default function MediaCard({image,title,heading,price}) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button variant="contained">Buy</Button>
+        <Button variant="contained" href="/buy">Buy</Button>
         
       </CardActions>
     </Card>
