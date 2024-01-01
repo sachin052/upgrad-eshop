@@ -7,7 +7,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Box } from '@mui/material';
 
-export default function MediaCard({image,title,heading,price}) {
+export default function MediaCard({image,title,heading,price,onClickBuy}) {
   return (
     <Card sx={{ display: 'flex', flexDirection: 'column' }}>
       <CardMedia
@@ -29,7 +29,9 @@ export default function MediaCard({image,title,heading,price}) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button variant="contained" href="/buy">Buy</Button>
+        <Button variant="contained" onClick={(e)=>{
+          onClickBuy();
+        }}>Buy</Button>
         
       </CardActions>
     </Card>

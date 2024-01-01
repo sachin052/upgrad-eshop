@@ -3,9 +3,9 @@ import Login from "./common/Login";
 import SignUp from "./common/SignUp";
 import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import AppTabBar from "./components/AppTabBar";
-import ProductPage from "./Components/ProductPage";
-import ProductDetailPage from "./Components/ProductDetailPage";
-import OrderPage from "./Components/OrderPage";
+import ProductPage from "./components/ProductPage";
+import ProductDetailPage from "./components/ProductDetailPage";
+import OrderPage from "./components/OrderPage";
 import Cookies from "js-cookie";
 
 const App = () => {
@@ -22,9 +22,9 @@ const AppContent = () => {
   useEffect(() => {
     const authToken = Cookies.get("authToken");
     if (authToken != null) {
-      navigate("/products");
+      navigate("/productPage");
     }
-  }, [navigate]);
+  }, []);
 
   return (
     <div>
@@ -34,9 +34,19 @@ const AppContent = () => {
       <Routes>
         <Route exact path="/" key="home" element={<Login />} />
         <Route exact path="/signup" key="signup" element={<SignUp />} />
-        <Route exact path="/productPage" key='productPage' element={<ProductPage/>}/>
-        <Route exact path="/buy" key='buy' element={<ProductDetailPage/>}/>
-        <Route exact path="/orderPage" key='orderPage' element={<OrderPage/>}/>
+        <Route
+          exact
+          path="/productPage"
+          key="productPage"
+          element={<ProductPage />}
+        />
+        <Route path="/buy/:productId" key="buy" element={<ProductDetailPage />} />
+        <Route
+          
+          path="/orderPage/:productId/:qty"
+          key="orderPage"
+          element={<OrderPage />}
+        />
       </Routes>
     </div>
   );

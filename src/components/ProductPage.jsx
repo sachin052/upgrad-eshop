@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ShoppingCardItem from "./ShoppingCardItem";
 import Grid from "@mui/material/Unstable_Grid2";
 import ToggleButton from "@mui/material/ToggleButton";
@@ -8,20 +8,38 @@ import Paper from "@mui/material/Paper";
 import SortByComponent from "./SortByComponent";
 import MediaCard from "./ShoppingCardItem";
 import { Box } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 export default function ProductPage() {
+  const navigate=useNavigate();
   const [alignment, setAlignment] = React.useState("web");
 
   const handleChange = (event, newAlignment) => {
     setAlignment(newAlignment);
   };
-  const dummyData = Array.from({ length: 10 }, (_, index) => ({
-    id: index,
-    price:index*100,
-    image: `https://source.unsplash.com/random/200x200?sig=${index + 1}`,
-    title: `Card ${index + 1}`,
-    heading: `This is the heading for Card ${index + 1}.`,
-  }));
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        // Make the API request to fetch products
+        const response = await fetch('http://localhost:8080/api/products');
+        
+        // Check if the response is successful (status code 200)
+        if (response.ok) {
+          const data = await response.json();
+          setProducts(data);
+        } else {
+          console.error('Failed to fetch products');
+        }
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
+
+    // Call the fetchProducts function when the component mounts
+    fetchProducts();
+  }, []);
 
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -55,9 +73,12 @@ export default function ProductPage() {
         direction="row"
         justifyContent="space-around"
         alignItems="center" spacing={12}  maxWidth='80%'      >
-        {dummyData.map((e, index) => (
-          <Grid item  xs={4}key={index} >
-            <MediaCard image={e.image} heading={e.heading} title={e.title} price={e.price} />
+        {products.map((e, index) => (
+          <Grid  xs={4}key={index} >
+            <MediaCard id={e.id} image={e.imageUrl} heading={e.description} title={e.name} price={e.price} onClickBuy={(_)=>{
+              const id =e.id;
+              navigate(`/buy/${id}`); // Corrected string interpolation
+            }}/>
           </Grid>
         ))}
       </Grid>

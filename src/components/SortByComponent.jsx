@@ -20,7 +20,7 @@ const SortByComponent = ({ onSortChange }) => {
       </MenuItem>
       {["Default", "Price: High to Low", "Price: Low to High", "Newest"].map(
         (item, index) => (
-          <MenuItem value={item}>{item}</MenuItem>
+          <MenuItem value={item} key={item}>{item}</MenuItem>
         )
       )}
     </Select>
