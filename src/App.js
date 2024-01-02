@@ -47,6 +47,8 @@ const AppContent = () => {
           key="orderPage"
           element={<OrderPage />}
         />
+        <Route exact path="/addProduct" key='addProduct' element={<AddProduct/>}/>
+
       </Routes>
     </div>
   );
