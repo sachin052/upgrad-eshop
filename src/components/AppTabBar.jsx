@@ -42,6 +42,7 @@ function ResponsiveAppBar() {
             >
               <Link  color="inherit" href="/" >Login</Link>
               <Link  color="inherit" href="/signup" >SignUp</Link>
+            <Link  color="inherit" href="/addProduct" >Add Product</Link>
           </Box>
         </Toolbar>
       </AppBar>
