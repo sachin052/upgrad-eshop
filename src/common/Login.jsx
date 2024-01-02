@@ -60,7 +60,9 @@ export default function SignIn() {
         const authToken = json.token;
         console.log("response of json is" + json.email);
         Cookies.set("authToken", authToken);
-        navigate("/products");
+        Cookies.set("userID", json.id);
+        Cookies.set("userType", json.roles[0]);
+        navigate("/productPage");
       }
     } catch (error) {
       console.log("error is " + error);

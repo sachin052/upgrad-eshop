@@ -21,32 +21,32 @@ export default function AddProduct() {
     <center><div>
             <h2>Add Product</h2>
             <Stack spacing={2} width='50%'>
-                <Item>
+                 
                     <TextField
                     required
                     id="outlined-required"
                     label="Name"
                     />
-                </Item>
-                <Item>
+                 
+                 
                     <CreatableSelect isClearable />
-                </Item>
-                <Item>
+                 
+                 
                 <TextField
                     required
                     id="outlined-required"
                     label="Manufacturer"
                     />
-                </Item>
-                <Item>
+                 
+                 
                 <TextField
                     required
                     id="outlined-required"
                     label="Avaiable Items"
                     type="number"
                     />
-                </Item>
-                <Item>
+                 
+                 
                 
                 <TextField
                     required
@@ -54,26 +54,26 @@ export default function AddProduct() {
                     label="Price"
                     type="number"
                     />
-                </Item>
-                <Item>
+                 
+                 
                 <TextField
                     required
                     id="outlined-required"
                     label="Image URL"
                     type="url"
                     />
-                </Item>
-                <Item>
+                 
+                 
                 <TextField
                     required
                     id="outlined-required"
                     label="Product Description"
                     type="url"
                     />
-                </Item>
-                <Item>
+                 
+                 
                 <Button variant="contained" href="/orderPage">SAVE PRODUCT</Button>
-                </Item>
+                 
             </Stack>
         
       </div></center>

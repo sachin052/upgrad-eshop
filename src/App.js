@@ -7,6 +7,7 @@ import ProductPage from "./components/ProductPage";
 import ProductDetailPage from "./components/ProductDetailPage";
 import OrderPage from "./components/OrderPage";
 import Cookies from "js-cookie";
+import AddProduct from "./components/AddProduct";
 
 const App = () => {
   return (
@@ -40,15 +41,17 @@ const AppContent = () => {
           key="productPage"
           element={<ProductPage />}
         />
-        <Route path="/buy/:productId" key="buy" element={<ProductDetailPage />} />
         <Route
-          
+          path="/buy/:productId"
+          key="buy"
+          element={<ProductDetailPage />}
+        />
+        <Route
           path="/orderPage/:productId/:qty"
           key="orderPage"
           element={<OrderPage />}
         />
-        <Route exact path="/addProduct" key='addProduct' element={<AddProduct/>}/>
-
+        <Route path="/addProduct" key="addProduct" element={<AddProduct />} />
       </Routes>
     </div>
   );

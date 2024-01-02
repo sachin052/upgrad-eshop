@@ -7,7 +7,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Box } from '@mui/material';
 
-export default function MediaCard({image,title,heading,price,onClickBuy}) {
+export default function MediaCard({id,image,title,heading,price,onClickBuy}) {
   return (
     <Card sx={{ display: 'flex', flexDirection: 'column' }}>
       <CardMedia

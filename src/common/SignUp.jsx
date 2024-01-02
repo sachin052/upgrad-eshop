@@ -166,13 +166,7 @@ export default function SignUp() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              onClick={(e)=>{
-                e.preventDefault();  // Prevent the default button click behavior
-                const form = e.currentTarget.closest("form");
-                if (form) {
-                  form.dispatchEvent(new Event("submit", { cancelable: true }));
-                }
-              }}
+            
             >
               Sign Up
             </Button>
