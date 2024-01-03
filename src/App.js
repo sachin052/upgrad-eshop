@@ -1,34 +1,51 @@
 import React, { useEffect } from "react";
 import Login from "./common/Login";
 import SignUp from "./common/SignUp";
-import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
+import {
+  BrowserRouter,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import AppTabBar from "./components/AppTabBar";
-import ProductPage from "./components/ProductPage";
-import ProductDetailPage from "./components/ProductDetailPage";
-import OrderPage from "./components/OrderPage";
+import ProductPage from "./common/ProductPage";
+import ProductDetailPage from "./common/ProductDetailPage";
+import OrderPage from "./common/OrderPage";
 import Cookies from "js-cookie";
-import AddProduct from "./components/AddProduct";
+import AddProduct from "./common/AddProduct";
+import { SearchProvider } from "./common/SearchContext";
 
 const App = () => {
   return (
-    <BrowserRouter>
-      <AppContent />
-    </BrowserRouter>
+    
+      <BrowserRouter>
+        <AppContent />
+      </BrowserRouter>
+    
   );
 };
 
 const AppContent = () => {
   const navigate = useNavigate();
+  const authToken = Cookies.get("authToken");
+  const { pathname } = useLocation();
 
   useEffect(() => {
-    const authToken = Cookies.get("authToken");
-    if (authToken != null) {
+    if (
+      authToken !== undefined &&
+      pathname !== "/productPage" &&
+      !pathname.includes('/buy')&&
+      !pathname.includes('orderPage')&&
+      !pathname.includes("/addProduct")
+    ) {
       navigate("/productPage");
     }
-  }, []);
+  }, [navigate, authToken, pathname]);
 
   return (
-    <div>
+    <SearchProvider>
+         <div>
       {/* Navigation bar */}
       <AppTabBar />
       {/* Routing */}
@@ -49,11 +66,12 @@ const AppContent = () => {
         <Route
           path="/orderPage/:productId/:qty"
           key="orderPage"
-          element={<OrderPage />}
+          element={<OrderPage/>}
         />
-        <Route path="/addProduct" key="addProduct" element={<AddProduct />} />
+        <Route path="/addProduct/:id?" key="addProduct" element={<AddProduct/>} />
       </Routes>
     </div>
+    </SearchProvider>
   );
 };
 

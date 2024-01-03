@@ -17,6 +17,7 @@ import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import jsCookie from "js-cookie";
 import { useDispatch, useSelector } from 'react-redux'; 
+import { useSearch } from "../common/SearchContext";
 
 
 const ResponsiveAppBar = () => {
@@ -29,9 +30,10 @@ const ResponsiveAppBar = () => {
     setAuthToken(Cookies.get("authToken"));
     setUserType(Cookies.get("userType"));
   }, [reload]);
-  // const handleSearch = (e) => {
-    // dispatch(setSearchTerm(e.target.value));
-  // };
+  const { updateSearchTerm } = useSearch();
+  const handleSearch = (e) => {
+    updateSearchTerm(e.target.value);
+  };
   return (
     <AppBar position="static" sx={{ background: "#3f51b5" }}>
       <Toolbar>
@@ -54,7 +56,7 @@ const ResponsiveAppBar = () => {
               <StyledInputBase
                 placeholder="Search…"
                 inputProps={{ "aria-label": "search" }}
-                // onChange={handleSearch}
+                onChange={handleSearch}
               />
             </SearchBox>
           )}

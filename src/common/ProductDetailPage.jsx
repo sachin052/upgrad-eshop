@@ -69,20 +69,7 @@ export default function ComplexGrid() {
   }));
   return (
     <div>
-      <center>
-        <ToggleButtonGroup
-          color="primary"
-          value={alignment}
-          exclusive
-          onChange={handleChange}
-          aria-label="Platform"
-        >
-          <ToggleButton value="web">ALL</ToggleButton>
-          <ToggleButton value="android">APPAREL</ToggleButton>
-          <ToggleButton value="ios">ELECTRONICS</ToggleButton>
-          <ToggleButton value="ios">PERSONAL CARE</ToggleButton>
-        </ToggleButtonGroup>
-      </center>
+   
 
       <Paper
         sx={{

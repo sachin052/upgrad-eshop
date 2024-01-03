@@ -12,16 +12,19 @@ import InputLabel from "@mui/material/InputLabel";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 
-import { json, useParams } from "react-router-dom";
+import { Navigate, json, useNavigate, useParams } from "react-router-dom";
 import Cookies from "js-cookie";
 import { AirlineSeatIndividualSuiteSharp } from "@mui/icons-material";
-import { Card } from "@mui/material";
+import { Alert, Card, Snackbar } from "@mui/material";
 import jsCookie from "js-cookie";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const steps = ["Items", "Select Address", "Confirm Order"];
 
 export default function OrderPage() {
   const { productId, qty } = useParams();
+  const navigate = useNavigate();
   const [product, setProduct] = useState({
     id: "658af6b28017b41b516cda89",
     name: "Salmon - Atlantic, Skin On",
@@ -64,6 +67,15 @@ export default function OrderPage() {
   };
 
   const handleNext = () => {
+    if (activeStep === 1 && address === undefined) {
+      setState({
+        ...state,
+        open: true,
+        type: "error",
+        message: "Please Select Address",
+      });
+      return;
+    }
     let newSkipped = skipped;
     if (isStepSkipped(activeStep)) {
       newSkipped = new Set(newSkipped.values());
@@ -81,7 +93,7 @@ export default function OrderPage() {
   const handleReset = () => {
     setActiveStep(0);
   };
-  const [address, setAddress] = React.useState("");
+  const [address, setAddress] = React.useState();
 
   const handleChange = (event) => {
     setAddress(event.target.value);
@@ -127,6 +139,12 @@ export default function OrderPage() {
       });
       if (response.ok) {
         setAllAddress([...allAddress, await response.json()]);
+        setState({
+          ...state,
+          open: true,
+          type: "success",
+          message: "Address Added successfully",
+        });
       } else {
         console.log("Not Success");
       }
@@ -175,14 +193,48 @@ export default function OrderPage() {
         body: JSON.stringify(request),
       });
       if (response.ok) {
+        setState({
+          ...state,
+          open: true,
+          type: "success",
+          message: "Order placed successfully",
+        });
+
+        setTimeout(() => {
+          navigate("/productPage");
+        }, 1000);
       }
     } catch (error) {
       console.log(error);
     }
   };
+  const [state, setState] = React.useState({
+    open: false,
+    type: "success",
+    message: "",
+  });
+  const { vertical, horizontal, open } = state;
 
   return (
     <Box sx={{ margin: 4 }}>
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        open={open}
+        autoHideDuration={6000}
+        onClose={() => {
+          setState({ ...state, open: false });
+          // navigate('/productPage')
+        }}
+      >
+        <Alert
+          onClose={() => setState({ ...state, open: false })}
+          severity={state.type}
+          sx={{ width: "100%" }}
+        >
+          {state.message}
+        </Alert>
+      </Snackbar>
+
       {/* stepper */}
       <Stepper activeStep={activeStep}>
         {steps.map((label, index) => {
@@ -200,16 +252,13 @@ export default function OrderPage() {
       </Stepper>
       {/* address selector */}
 
-      <div>
-        <center>-OR-</center>
-      </div>
       {activeStep === steps.length - 1 ? (
         <React.Fragment>
           <Card>
             <Box sx={{ display: "flex", flexDirection: "row", padding: 3 }}>
               <Box sx={{ display: "flex", flexDirection: "column" }}>
                 <Typography variant="h5">{product.name}</Typography>
-                <Typography>Quantity : 1</Typography>
+                <Typography>Quantity : {qty}</Typography>
                 <Typography>{`Category: ${product.category}`}</Typography>
                 <Typography>{product.description}</Typography>
                 <Typography>{`Total Price: Rs ${product.price}`}</Typography>
@@ -246,22 +295,30 @@ export default function OrderPage() {
         <React.Fragment>
           <center>
             <FormControl sx={{ marginTop: 4 }} fullWidth>
-              <InputLabel id="demo-simple-select-label">
-                Select Address
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={address}
-                label="Address"
-                onChange={handleChange}
-              >
-                {allAddress &&
-                  allAddress.map((item, index) => {
-                    return <MenuItem value={index}>{item.state}</MenuItem>;
-                  })}
-              </Select>
+              <Box sx={{ textAlign: "center" }}>
+                <Typography sx={{mb:3}}>Select</Typography>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={address}
+                  label="Address"
+                  style={{ width: "50%" }}
+                  onChange={handleChange}
+                >
+                  {allAddress &&
+                    allAddress.map((item, index) => {
+                      return <MenuItem value={index}>{item.state}</MenuItem>;
+                    })}
+                </Select>
+              </Box>
             </FormControl>
+            <div>
+              <center>
+                <Typography sx={{mt:3,mb:3}}>
+                -OR-
+                </Typography>
+              </center>
+            </div>
             <Typography>Add Address</Typography>
             <Box
               component="form"
